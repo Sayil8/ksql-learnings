@@ -1,0 +1,24 @@
+# FOR LOCAL DEVELOPMENT PURPOSES #
+version: "3.7"
+services:
+  example-kafka:
+    image: spotify/kafka
+    container_name: example-kafka
+    hostname: example-kafka
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+      - "ADVERTISED_HOST=example-kafka"
+      - "ADVERTISED_PORT=9092"
+
+  example-ksql:
+    depends_on:
+      - example-kafka
+    image: confluentinc/cp-ksql-server
+    container_name: example-ksql
+    hostname: example-ksql
+    ports:
+      - "8088:8088"
+
+
