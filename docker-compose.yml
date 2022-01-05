@@ -1,24 +1,39 @@
 # FOR LOCAL DEVELOPMENT PURPOSES #
 version: "3.7"
 services:
-  example-kafka:
-    image: spotify/kafka
-    container_name: example-kafka
-    hostname: example-kafka
+  ksql-kafka:
+    image: lensesio/fast-data-dev
+    container_name: ksql-kafka
+    hostname: ksql-kafka
     ports:
       - "2181:2181"
       - "9092:9092"
     environment:
-      - "ADVERTISED_HOST=example-kafka"
+      - "ADVERTISED_HOST=ksql-kafka"
       - "ADVERTISED_PORT=9092"
 
-  example-ksql:
+  ksqldb-server:
+    image: confluentinc/ksqldb-server
+    hostname: ksqldb-server
+    container_name: ksqldb-server
     depends_on:
-      - example-kafka
-    image: confluentinc/cp-ksql-server
-    container_name: example-ksql
-    hostname: example-ksql
+      - ksql-kafka
     ports:
       - "8088:8088"
+    environment:
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: ksql-kafka:9092
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+
+  ksqldb-cli:
+    image: confluentinc/ksqldb-cli
+    container_name: ksqldb-cli
+    depends_on:
+      - ksql-kafka
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
+
 
 
