@@ -1,2 +1,4 @@
 rootProject.name = 'kafka-ksql-example'
 
+include 'syntheticProducer'
+

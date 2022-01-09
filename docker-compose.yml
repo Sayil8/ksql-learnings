@@ -35,5 +35,10 @@ services:
     entrypoint: /bin/sh
     tty: true
 
-
-
+  synthetic-producer:
+    container_name: synthetic-producer
+    image: smuehr/synthetic-producer:latest
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: "Europe/Berlin"
