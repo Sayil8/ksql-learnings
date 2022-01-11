@@ -2,5 +2,4 @@
     RUN SCRIPT = './ksql-example-file-name'
 
 -- Always start from the beginning of the table/stream
-
   SET 'auto.offset.reset'='earliest';

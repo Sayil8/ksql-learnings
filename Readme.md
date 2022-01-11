@@ -17,3 +17,31 @@
   ```sql
   select firstname, lastname, countrycode, rating from userprofile EMIT CHANGES;
   ```
+  
+- Push queries
+  - Long-running queries
+  ```sql
+  select * from driverlocations emit changes;
+  ```
+- Pull queries
+  - Return the current state of the table
+  - Based on aggregated tables
+  - Query against the rowKey
+    ```sql
+    select countrycode, numdrivers from countryDrivers where rowkey = 'AU';
+    ```
+    
+- Create a source connector from the ksql-cli
+```sql
+CREATE SOURCE CONNECTOR `mysql-jdbc-source` WITH(
+"connector.class"='io.confluent.connect.jdbc.JdbcSourceConnector', 
+"connection.url"='jdbc:mysql://sems-mysql:3308/sems_slim', 
+"mode"='incrementing',
+"incrementing.column.name"='ref',
+"table.whitelists"='job',
+"connection.password"='root',
+"connection.user"='root',
+"topic.prefix"='db-',
+"key"='id'
+);
+```
