@@ -60,7 +60,7 @@ services:
     ports:
       - '8083:8083'
     volumes:
-      - ./jars:/etc/kafka-connect-mysql
+      - ./jars:/usr/share/java/kafka-connect-jdbc
     environment:
       TZ: ksql-kafka
       CONNECT_BOOTSTRAP_SERVERS: "ksql-kafka:9092"
@@ -76,7 +76,7 @@ services:
       CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect"
-      CONNECT_PLUGIN_PATH: '/usr/share/java,/etc/kafka-connect-mysql'
+      CONNECT_PLUGIN_PATH: '/usr/share/java,/usr/share/java/kafka-connect-jdbc'
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
