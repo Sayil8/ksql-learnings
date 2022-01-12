@@ -48,8 +48,11 @@ services:
       TZ: "Europe/Berlin"
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: ksql-kafka:2181
+      SCHEMA_REGISTRY_LISTENERS: http://schema-registry:8081
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC_SERVERS: PLAINTEXT://ksql-kafka:9092
       SCHEMA_REGISTRY_AVRO_COMPATIBILITY_LEVEL: "none"
       SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: "WARN"
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://ksql-kafka:9092
 
   kafka-connect:
     container_name: kafka-connect
@@ -82,10 +85,23 @@ services:
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_CONFLUENT_TOPIC_REPLICATION_FACTOR: 1
 
-  synthetic-producer:
-    container_name: synthetic-producer
-    image: smuehr/synthetic-producer:latest
-    ports:
-      - "8080:8080"
+  database:
+    image: mysql:5.7
+    container_name: database
+    hostname: database
     environment:
-      TZ: "Europe/Berlin"
+      - "MYSQL_DATABASE=sems"
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - ./syntheticProducer/src/main/resources/shared-data:/var/lib/mysql
+      - ./ad-syntheticProducer/src/main/resources/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    ports:
+      - "3306:3306"
+
+#  synthetic-producer:
+#    container_name: synthetic-producer
+#    image: smuehr/synthetic-producer:latest
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      TZ: "Europe/Berlin"

@@ -35,13 +35,14 @@
 ```sql
 CREATE SOURCE CONNECTOR `mysql-jdbc-source` WITH(
 "connector.class"='io.confluent.connect.jdbc.JdbcSourceConnector', 
-"connection.url"='jdbc:mysql://sems-mysql:3308/sems_slim', 
+"connection.url"='jdbc:mysql://database:3306/sems?user=root&password=root', 
 "mode"='incrementing',
-"incrementing.column.name"='ref',
+"incrementing.column.name"='id',
 "table.whitelists"='job',
 "connection.password"='root',
 "connection.user"='root',
 "topic.prefix"='db-',
+"table.whitelist"='ad-account',
 "key"='id'
 );
 ```

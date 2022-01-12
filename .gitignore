@@ -34,3 +34,5 @@ hs_err_pid*
 # Build directories
 build
 jars
+syntheticProducer/src/main/resources/mysql/*
+syntheticProducer/src/main/resources/shared-data/*
