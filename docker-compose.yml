@@ -98,10 +98,10 @@ services:
     ports:
       - "3306:3306"
 
-#  synthetic-producer:
-#    container_name: synthetic-producer
-#    image: smuehr/synthetic-producer:latest
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      TZ: "Europe/Berlin"
+  synthetic-producer:
+    container_name: synthetic-producer
+    image: smuehr/synthetic-producer:latest
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: "Europe/Berlin"
