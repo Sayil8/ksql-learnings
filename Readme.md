@@ -46,3 +46,20 @@ CREATE SOURCE CONNECTOR `mysql-jdbc-source` WITH(
 "key"='id'
 );
 ```
+
+[comment]: <> (Investigate how to connect container running outside the project docker compose file)
+- Create a source connector from the ksql-cli
+```sql
+CREATE SOURCE CONNECTOR `sems-mysql-jdbc-source` WITH(
+"connector.class"='io.confluent.connect.jdbc.JdbcSourceConnector', 
+"connection.url"='jdbc:mysql://sems-shared-mysql:3308/sems_slim?user=root&password=root', 
+"mode"='incrementing',
+"incrementing.column.name"='id',
+"table.whitelists"='job',
+"connection.password"='root',
+"connection.user"='root',
+"topic.prefix"='sems-db-',
+"table.whitelist"='job',
+"key"='id'
+);
+```
